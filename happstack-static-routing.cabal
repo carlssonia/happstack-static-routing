@@ -20,7 +20,7 @@ Homepage:            https://github.com/carlssonia/happstack-static-routing
 Stability:           Development
 Category:            Web, Distributed Computing
 Build-type:          Simple
-Cabal-version:       >=1.2
+Cabal-version:       >=1.6
 
 
 library
@@ -37,3 +37,7 @@ library
   build-depends: containers >= 0.3
   build-depends: list-tries >= 0.4
   build-depends: transformers >= 0.2
+
+source-repository head
+  type: git
+  location: git://github.com/carlssonia/happstack-static-routing.git
