@@ -35,17 +35,17 @@ newtype Segment =
 type EndSegment = (Maybe Int, H.Method)
 
 -- | Support for varying number of arguments to 'path' handlers.
-class Path m a b | a -> m b where
+class Path m a b | a b -> m where
   pathHandler :: (m b -> m c) -> a -> m c
-  arity :: a -> Int
+  arity :: m b -> a -> Int
 
 instance (FromReqURI d, ServerMonad m, MonadPlus m, Path m a b) => Path m (d -> a) b where
   pathHandler w f = H.path (pathHandler w . f)
-  arity f = 1 + arity (f undefined)
+  arity m f = 1 + arity m (f undefined)
 
 instance Path m (m b) b where
   pathHandler w m = w m
-  arity _ = 0
+  arity _ _ = 0
 
 -- | Pop a path element if it matches the given string.
 dir :: String -> Route a -> Route a
@@ -56,8 +56,8 @@ choice :: [Route a] -> Route a
 choice = Choice
 
 -- | Expect the given method, and exactly 'n' more segments, where 'n' is the arity of the handler.
-path :: Path m h a => H.Method -> (m a -> m b) -> h -> Route (m b)
-path m w h = Handler (Just (arity h),m) (pathHandler w h)
+path :: forall m h a b. Path m h a => H.Method -> (m a -> m b) -> h -> Route (m b)
+path m w h = Handler (Just (arity (undefined::m a) h),m) (pathHandler w h)
 
 -- | Expect zero or more segments.
 remainingPath :: H.Method -> h -> Route h

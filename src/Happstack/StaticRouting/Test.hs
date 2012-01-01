@@ -45,9 +45,9 @@ rs1 = choice
 rs2 = choice
       [ dir "p1" $ remainingPath H.GET $ H.ok "remainingPath"
       , dir "p1" $ dir "path1" $ ok "path1"
-      , dir "p2" $ hGet $ \p q r -> H.ok (p++q++r)
+      , dir "p2" $ hGet $ \p q r -> H.ok (p++q++r::String)
       , dir "p2" $ dir "p3" $ remainingPath H.GET $ H.ok "remainingPath"
-      , dir "p3" $ hGet $ \p -> H.ok p
+      , dir "p3" $ hGet $ \p -> H.ok (p::String)
       , dir "p3" $ dir "p4" $ ok "p4"
       , dir "p4" $ dir "p5" $ ok "p5"
       , dir "p4" $ dir "p5" $ ok "p5"
