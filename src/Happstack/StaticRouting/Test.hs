@@ -14,10 +14,10 @@ import Happstack.StaticRouting.Internal
 main :: IO ()
 main = simpleHTTP nullConf (fst (compile rs1))
 
-hGet :: Path m h a => h -> Route (m a)
+hGet :: Path m m h a => h -> Route (m a)
 hGet = path H.GET id
 
-ok :: (Path m (m a) a, FilterMonad Response m) => a -> Route (m a)
+ok :: (Path m m (m a) a, FilterMonad Response m) => a -> Route (m a)
 ok s = hGet $ H.ok s
 
 rs1,rs2 :: Route (ServerPartT IO [Char])

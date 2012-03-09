@@ -7,14 +7,12 @@ module Happstack.StaticRouting.Test612 where
 
 import qualified Data.ListTrie.Map as Trie
 
-import Happstack.Server(ServerPartT, nullConf, simpleHTTP, FilterMonad, Response)
-import Happstack.Server(FromReqURI, ServerMonad)
-import Control.Monad(MonadPlus)
+import Happstack.Server(ServerPartT, nullConf, simpleHTTP)
+import Happstack.Server(FromReqURI)
 
 import qualified Happstack.Server as H
 
 import Happstack.StaticRouting.Internal hiding (path)
-import qualified Happstack.StaticRouting.Internal as I
 
 -- Workaround for GHC 6.12.3:
 
@@ -55,6 +53,7 @@ rs1 = choice
     , dir "p3" $ dir "a" $ ok "p3/a"
     , dir "p4" $ param "P1" $ ok "p4/P1"
     , dir "p4" $ param "P2" $ ok "p4/P2"
+    , dir "p4" $ ok "p4 no param"
     , dir "p5" $ dir "a" $ ok "p5.a"
     , dir "p5" $ dir "b" $ ok "p5/b"
     , dir "p6" $ choice [ ok "p6"
