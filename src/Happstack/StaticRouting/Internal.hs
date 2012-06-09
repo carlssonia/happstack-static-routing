@@ -1,6 +1,6 @@
 {-# LANGUAGE OverlappingInstances, FunctionalDependencies, ScopedTypeVariables,
     MultiParamTypeClasses, FlexibleInstances, UndecidableInstances,
-    FlexibleContexts #-}
+    FlexibleContexts, DeriveFunctor #-}
 {-# OPTIONS_HADDOCK hide #-}
 
 module Happstack.StaticRouting.Internal where
@@ -23,6 +23,7 @@ data Route a =
   | Handler EndSegment a
   | Param String (Route a)
   | Choice [Route a]
+  deriving Functor
 
 -- For backwards compatibility with GHC 6.12
 handler :: EndSegment -> a -> Route a
